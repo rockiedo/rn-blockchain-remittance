@@ -1,17 +1,11 @@
-import { Card, Divider, Input, Layout, Text } from '@ui-kitten/components';
+import { useXsgdToVndQuote } from '@/hooks/useXsgdToVnd';
+import { Button, Card, Divider, Input, Layout, Text } from '@ui-kitten/components';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 export default function HomeScreen() {
-  const [xsgdAmount, setXsgdAmount] = useState('');
-
-  // Placeholder rates - these can be replaced with actual API calls later
-  const xsgdToUsdtRate = 1.0; // 1 XSGD = 1 USDT (example)
-  const usdtToVndRate = 25000; // 1 USDT = 25000 VND (example)
-
-  // Calculate USDT and VND amounts
-  const usdtAmount = xsgdAmount ? (parseFloat(xsgdAmount) * xsgdToUsdtRate).toFixed(2) : '';
-  const vndAmount = xsgdAmount ? (parseFloat(xsgdAmount) * xsgdToUsdtRate * usdtToVndRate).toFixed(2) : '';
+  const [ xsgdAmount, setXsgdAmount ] = useState('');
+  const { state, loadQuote } = useXsgdToVndQuote();
 
   return (
     <Layout style={styles.container}>
@@ -41,29 +35,37 @@ export default function HomeScreen() {
 
         <View style={styles.row}>
           <Text category="s1" style={styles.label}>USDT amount</Text>
-          <Text category="s1" style={styles.textField}>{usdtAmount || '0.00'}</Text>
+          <Text category="s1" style={styles.textField}>{state.usdtAmount || '--'}</Text>
         </View>
 
         <Divider style={styles.divider} />
 
         <View style={styles.row}>
           <Text category="s1" style={styles.label}>VND amount</Text>
-          <Text category="s1" style={styles.textField}>{vndAmount || '0.00'}</Text>
+          <Text category="s1" style={styles.textField}>{state.vndAmount || '--'}</Text>
         </View>
       </Card>
+
+      <Button style={styles.button} onPress={() => {
+        const amountNum = parseFloat(xsgdAmount);
+        if (isNaN(amountNum)) {
+          return;
+        }
+        loadQuote(amountNum);
+      }}>Calculate</Button>
 
       {/* Section 2 - Exchange Rates Card */}
       <Card style={styles.card}>
         <View style={styles.row}>
           <Text category="s1" style={styles.label}>XSGD to USDT rate</Text>
-          <Text category="s1" style={styles.rateText}>{xsgdToUsdtRate}</Text>
+          <Text category="s1" style={styles.rateText}>{state.xsgdToUsdtQuote.toLocaleString()}</Text>
         </View>
 
         <Divider style={styles.divider} />
 
         <View style={styles.row}>
           <Text category="s1" style={styles.label}>USDT to VND rate</Text>
-          <Text category="s1" style={styles.rateText}>{usdtToVndRate.toLocaleString()}</Text>
+          <Text category="s1" style={styles.rateText}>{state.usdtToVndQuote.toLocaleString()}</Text>
         </View>
       </Card>
     </Layout>
@@ -115,5 +117,8 @@ const styles = StyleSheet.create({
   },
   divider: {
     marginVertical: 8,
+  },
+  button: {
+    marginBottom: 20,
   },
 });
