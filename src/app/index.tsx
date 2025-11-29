@@ -7,6 +7,34 @@ export default function HomeScreen() {
   const [xsgdAmount, setXsgdAmount] = useState('');
   const { state, loadQuote } = useXsgdToVndQuote();
 
+  const handleAmountChange = (text: string) => {
+    // Allow empty string
+    if (text === '') {
+      setXsgdAmount('');
+      return;
+    }
+
+    // Remove commas and only allow numbers and one decimal point
+    const cleanedText = text.replace(/,/g, '').replace(/[^0-9.]/g, '');
+    
+    // Prevent multiple decimal points
+    const parts = cleanedText.split('.');
+    if (parts.length > 2) {
+      return;
+    }
+
+    // Limit to 3 decimal places
+    if (parts.length === 2 && parts[1].length > 3) {
+      return;
+    }
+
+    // Format with thousand separators
+    const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const formattedText = parts.length === 2 ? `${integerPart}.${parts[1]}` : integerPart;
+
+    setXsgdAmount(formattedText);
+  };
+
   return (
     <Layout style={styles.container}>
       {/* Title */}
@@ -24,7 +52,7 @@ export default function HomeScreen() {
           <Input
             style={styles.input}
             value={xsgdAmount}
-            onChangeText={setXsgdAmount}
+            onChangeText={handleAmountChange}
             placeholder="0.00"
             keyboardType="numeric"
             textAlign="right"
@@ -47,7 +75,7 @@ export default function HomeScreen() {
       </Card>
 
       <Button style={styles.button} onPress={() => {
-        const amountNum = parseFloat(xsgdAmount);
+        const amountNum = parseFloat(xsgdAmount.replace(/,/g, ''));
         if (isNaN(amountNum)) {
           return;
         }
