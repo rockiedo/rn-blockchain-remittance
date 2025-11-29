@@ -1,5 +1,6 @@
-import { getUsdtToVndQuote } from "@/services/getP2pService";
+import { getBankQuote } from "@/services/bankService";
 import { swapXsgdToUsdt } from "@/services/liquidityPoolService";
+import { getUsdtToVndQuote } from "@/services/p2pService";
 import { useCallback, useState } from "react";
 
 export interface XsgdToVndState {
@@ -8,6 +9,7 @@ export interface XsgdToVndState {
     xsgdToVndQuote: number;
     xsgdToUsdtQuote: number;
     usdtToVndQuote: number;
+    bankQuote: number;
     isLoading: boolean;
     error: string | null;
 }
@@ -19,6 +21,7 @@ export function useXsgdToVndQuote() {
         xsgdToVndQuote: 0,
         usdtToVndQuote: 0,
         xsgdToUsdtQuote: 0,
+        bankQuote: 0,
         isLoading: false,
         error: null,
     });
@@ -33,6 +36,8 @@ export function useXsgdToVndQuote() {
         try {
             const usdtAmount = await swapXsgdToUsdt(xsgdAmount);
             const usdtToVndQuote = await getUsdtToVndQuote();
+            const bankQuote = await getBankQuote(xsgdAmount);
+            
             const vndAmount = usdtAmount * usdtToVndQuote;
 
             setState({
@@ -41,6 +46,7 @@ export function useXsgdToVndQuote() {
                 xsgdToVndQuote: vndAmount / xsgdAmount,
                 xsgdToUsdtQuote: usdtAmount / xsgdAmount,
                 usdtToVndQuote: usdtToVndQuote,
+                bankQuote: bankQuote,
                 isLoading: false,
                 error: null,
             });
@@ -51,6 +57,7 @@ export function useXsgdToVndQuote() {
                 xsgdToVndQuote: 0,
                 xsgdToUsdtQuote: 0,
                 usdtToVndQuote: 0,
+                bankQuote: 0,
                 isLoading: false,
                 error: err instanceof Error ? err.message : "Unknown error",
             });

@@ -70,7 +70,7 @@ export default function HomeScreen() {
 
         <View style={styles.row}>
           <Text category="s1" style={styles.label}>VND amount</Text>
-          <Text category="s1" style={styles.textField}>{state.vndAmount.toLocaleString() || '--'}</Text>
+          <Text category="s1" style={[styles.textField, styles.highlightedPositiveText]}>{state.vndAmount.toLocaleString() || '--'}</Text>
         </View>
       </Card>
 
@@ -86,7 +86,14 @@ export default function HomeScreen() {
       <Card style={styles.card}>
         <View style={styles.row}>
           <Text category="s1" style={styles.label}>XSGD to VND rate</Text>
-          <Text category="s1" style={styles.rateText}>{state.xsgdToVndQuote.toLocaleString()}</Text>
+          <Text category="s1" style={[styles.rateText, styles.highlightedPositiveText]}>{state.xsgdToVndQuote.toLocaleString()}</Text>
+        </View>
+
+        <Divider style={styles.divider} />
+
+        <View style={styles.row}>
+          <Text category="s1" style={styles.label}>Bank rate</Text>
+          <Text category="s1" style={[styles.rateText, styles.highlightedText]}>{state.bankQuote.toLocaleString()}</Text>
         </View>
 
         <Divider style={styles.divider} />
@@ -145,15 +152,33 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'right',
   },
-  rateText: {
+  valueColumn: {
     flex: 1,
+    alignItems: 'flex-end',
+  },
+  rateText: {
     textAlign: 'right',
     fontWeight: '600',
+  },
+  highlightedPositiveText: {
+    color: '#16A34A',
+    fontWeight: '700',
+    fontSize: 16,
+  },
+  highlightedText: {
+    color: '#D97706',
+    fontWeight: '700',
+    fontSize: 16,
   },
   divider: {
     marginVertical: 8,
   },
   button: {
     marginBottom: 20,
+  },
+  comparisonText: {
+    textAlign: 'right',
+    fontSize: 14,
+    marginTop: 4,
   },
 });
