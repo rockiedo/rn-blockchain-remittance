@@ -18,8 +18,5 @@ export async function getUsdtToVndQuote(): Promise<number> {
 
     const response = await fetch(url.toString());
     const data = await response.json();
-
-    console.log(JSON.stringify(data));
-
     return parseFloat(data.data.buy[0].price);
 }

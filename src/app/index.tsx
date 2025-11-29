@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 export default function HomeScreen() {
-  const [ xsgdAmount, setXsgdAmount ] = useState('');
+  const [xsgdAmount, setXsgdAmount] = useState('');
   const { state, loadQuote } = useXsgdToVndQuote();
 
   return (
@@ -35,14 +35,14 @@ export default function HomeScreen() {
 
         <View style={styles.row}>
           <Text category="s1" style={styles.label}>USDT amount</Text>
-          <Text category="s1" style={styles.textField}>{state.usdtAmount || '--'}</Text>
+          <Text category="s1" style={styles.textField}>{state.usdtAmount.toLocaleString() || '--'}</Text>
         </View>
 
         <Divider style={styles.divider} />
 
         <View style={styles.row}>
           <Text category="s1" style={styles.label}>VND amount</Text>
-          <Text category="s1" style={styles.textField}>{state.vndAmount || '--'}</Text>
+          <Text category="s1" style={styles.textField}>{state.vndAmount.toLocaleString() || '--'}</Text>
         </View>
       </Card>
 
@@ -56,6 +56,13 @@ export default function HomeScreen() {
 
       {/* Section 2 - Exchange Rates Card */}
       <Card style={styles.card}>
+        <View style={styles.row}>
+          <Text category="s1" style={styles.label}>XSGD to VND rate</Text>
+          <Text category="s1" style={styles.rateText}>{state.xsgdToVndQuote.toLocaleString()}</Text>
+        </View>
+
+        <Divider style={styles.divider} />
+
         <View style={styles.row}>
           <Text category="s1" style={styles.label}>XSGD to USDT rate</Text>
           <Text category="s1" style={styles.rateText}>{state.xsgdToUsdtQuote.toLocaleString()}</Text>

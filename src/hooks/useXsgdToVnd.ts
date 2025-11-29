@@ -5,6 +5,7 @@ import { useCallback, useState } from "react";
 export interface XsgdToVndState {
     vndAmount: number;
     usdtAmount: number;
+    xsgdToVndQuote: number;
     xsgdToUsdtQuote: number;
     usdtToVndQuote: number;
     isLoading: boolean;
@@ -15,6 +16,7 @@ export function useXsgdToVndQuote() {
     const [state, setState] = useState<XsgdToVndState>({
         vndAmount: 0,
         usdtAmount: 0,
+        xsgdToVndQuote: 0,
         usdtToVndQuote: 0,
         xsgdToUsdtQuote: 0,
         isLoading: false,
@@ -31,11 +33,13 @@ export function useXsgdToVndQuote() {
         try {
             const usdtAmount = await swapXsgdToUsdt(xsgdAmount);
             const usdtToVndQuote = await getUsdtToVndQuote();
+            const vndAmount = usdtAmount * usdtToVndQuote;
 
             setState({
-                vndAmount: usdtAmount * usdtToVndQuote,
+                vndAmount: vndAmount,
                 usdtAmount: usdtAmount,
-                xsgdToUsdtQuote: xsgdAmount / usdtAmount,
+                xsgdToVndQuote: vndAmount / xsgdAmount,
+                xsgdToUsdtQuote: usdtAmount / xsgdAmount,
                 usdtToVndQuote: usdtToVndQuote,
                 isLoading: false,
                 error: null,
@@ -44,6 +48,7 @@ export function useXsgdToVndQuote() {
             setState({
                 vndAmount: 0,
                 usdtAmount: 0,
+                xsgdToVndQuote: 0,
                 xsgdToUsdtQuote: 0,
                 usdtToVndQuote: 0,
                 isLoading: false,
