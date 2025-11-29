@@ -1,5 +1,5 @@
 import { useXsgdToVndQuote } from '@/hooks/useXsgdToVnd';
-import { Button, Card, Divider, Input, Layout, Text } from '@ui-kitten/components';
+import { Button, Card, Divider, Input, Layout, Spinner, Text } from '@ui-kitten/components';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -63,51 +63,70 @@ export default function HomeScreen() {
 
         <View style={styles.row}>
           <Text category="s1" style={styles.label}>USDT amount</Text>
-          <Text category="s1" style={styles.textField}>{state.usdtAmount.toLocaleString() || '--'}</Text>
+          <Text category="s1" style={styles.textField}>
+            {state.usdtAmount > 0 ? state.usdtAmount.toLocaleString() : '--'}
+          </Text>
         </View>
 
         <Divider style={styles.divider} />
 
         <View style={styles.row}>
           <Text category="s1" style={styles.label}>VND amount</Text>
-          <Text category="s1" style={[styles.textField, styles.highlightedPositiveText]}>{state.vndAmount.toLocaleString() || '--'}</Text>
+          <Text category="s1" style={[styles.textField, state.vndAmount > 0 && styles.highlightedPositiveText]}>
+            {state.vndAmount > 0 ? state.vndAmount.toLocaleString() : '--'}
+          </Text>
         </View>
       </Card>
 
-      <Button style={styles.button} onPress={() => {
-        const amountNum = parseFloat(xsgdAmount.replace(/,/g, ''));
-        if (isNaN(amountNum)) {
-          return;
-        }
-        loadQuote(amountNum);
-      }}>Calculate</Button>
+      <Button 
+        style={styles.button} 
+        onPress={() => {
+          const amountNum = parseFloat(xsgdAmount.replace(/,/g, ''));
+          if (isNaN(amountNum)) {
+            return;
+          }
+          loadQuote(amountNum);
+        }}
+        accessoryLeft={state.isLoading ? () => <Spinner size="small" status="basic" /> : undefined}
+        disabled={state.isLoading}
+      >
+        Calculate
+      </Button>
 
       {/* Section 2 - Exchange Rates Card */}
       <Card style={styles.card}>
         <View style={styles.row}>
           <Text category="s1" style={styles.label}>XSGD to VND rate</Text>
-          <Text category="s1" style={[styles.rateText, styles.highlightedPositiveText]}>{state.xsgdToVndQuote.toLocaleString()}</Text>
+          <Text category="s1" style={[styles.rateText, state.xsgdToVndQuote > 0 && styles.highlightedPositiveText]}>
+            {state.xsgdToVndQuote > 0 ? state.xsgdToVndQuote.toLocaleString() : '--'}
+          </Text>
         </View>
 
         <Divider style={styles.divider} />
 
         <View style={styles.row}>
           <Text category="s1" style={styles.label}>Bank rate</Text>
-          <Text category="s1" style={[styles.rateText, styles.highlightedText]}>{state.bankQuote.toLocaleString()}</Text>
+          <Text category="s1" style={[styles.rateText, state.bankQuote > 0 && styles.highlightedText]}>
+            {state.bankQuote > 0 ? state.bankQuote.toLocaleString() : '--'}
+          </Text>
         </View>
 
         <Divider style={styles.divider} />
 
         <View style={styles.row}>
           <Text category="s1" style={styles.label}>XSGD to USDT rate</Text>
-          <Text category="s1" style={styles.rateText}>{state.xsgdToUsdtQuote.toLocaleString()}</Text>
+          <Text category="s1" style={styles.rateText}>
+            {state.xsgdToUsdtQuote > 0 ? state.xsgdToUsdtQuote.toLocaleString() : '--'}
+          </Text>
         </View>
 
         <Divider style={styles.divider} />
 
         <View style={styles.row}>
           <Text category="s1" style={styles.label}>USDT to VND rate</Text>
-          <Text category="s1" style={styles.rateText}>{state.usdtToVndQuote.toLocaleString()}</Text>
+          <Text category="s1" style={styles.rateText}>
+            {state.usdtToVndQuote > 0 ? state.usdtToVndQuote.toLocaleString() : '--'}
+          </Text>
         </View>
       </Card>
     </Layout>
