@@ -44,6 +44,9 @@ module.exports = {
       typedRoutes: true,
       reactCompiler: true
     },
+    extra: {
+      oneInchAuthToken: process.env.ONE_INCH_AUTH_TOKEN
+    }
   }
 };
 
