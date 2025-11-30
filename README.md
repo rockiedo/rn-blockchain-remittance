@@ -4,88 +4,7 @@ A playground project for learning React Native with Expo. This app demonstrates 
 
 > **Note:** This is a learning project created to explore React Native development, state management, and mobile UI/UX patterns.
 
-## Screenshots
-
-<!-- Add screenshots here -->
-<div align="center">
-  <p><em>Screenshots coming soon...</em></p>
-</div>
-
-## Demo
-
-<!-- Add GIFs/videos here -->
-<div align="center">
-  <p><em>Demo GIFs coming soon...</em></p>
-</div>
-
-## Architecture
-
-This project follows a clean, layered architecture pattern:
-
-```
-Services → Hooks → Views
-```
-
-### Services Layer (`src/services/`)
-The services layer handles all data fetching and business logic:
-- `bankService.ts` - Fetches traditional bank exchange rates
-- `liquidityPoolService.ts` - Handles liquidity pool rate calculations
-- `p2pService.ts` - Manages P2P exchange rates
-
-### Hooks Layer (`src/hooks/`)
-Custom React hooks encapsulate state management and side effects:
-- `useXsgdToVnd.ts` - Main hook for currency conversion logic, orchestrating multiple services and managing UI state
-
-### Views Layer (`src/app/`)
-React components for the user interface, using [UI Kitten](https://akveo.github.io/react-native-ui-kitten/) for consistent design:
-- File-based routing powered by [Expo Router](https://docs.expo.dev/router/introduction/)
-- `index.tsx` - Main conversion screen
-
-### Navigation
-This project uses **Expo Router** for file-based routing, where the file structure in the `src/app/` directory automatically defines the navigation structure.
-
-## Tech Stack
-
-- **Framework:** [Expo](https://expo.dev) / React Native
-- **UI Library:** [UI Kitten](https://akveo.github.io/react-native-ui-kitten/)
-- **Navigation:** [Expo Router](https://docs.expo.dev/router/introduction/)
-- **Language:** TypeScript
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v18 or later recommended)
-- npm or yarn
-- iOS Simulator (macOS) or Android Emulator
-
-### Installation
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/yourusername/blockchain-remittance-rn.git
-cd blockchain-remittance-rn
-```
-
-2. Install dependencies:
-
-```bash
-npm install
-```
-
-### Running the Project
-
-Start the development server:
-
-```bash
-npx expo start
-```
-
-You'll see options to run the app on:
-- Press `i` for iOS Simulator (macOS only)
-- Press `a` for Android Emulator
-- Scan QR code with Expo Go app on your physical device
+<img src="https://github.com/user-attachments/assets/fd122998-00e1-450e-b819-c4fbb01bfdf3" width=250>
 
 ## Features
 
@@ -103,6 +22,89 @@ This project helped explore:
 - File-based routing with Expo Router
 - Service-oriented architecture
 - UI component libraries and styling in React Native
+
+## Architecture
+
+This project follows a clean, layered architecture pattern:
+
+```
+Services → Hooks → Views
+```
+
+**Services Layer (`src/services/`)**
+
+The services layer handles all data fetching and business logic:
+- `bankService.ts` - Fetches traditional bank exchange rates
+- `liquidityPoolService.ts` - Handles liquidity pool rate calculations
+- `p2pService.ts` - Manages P2P exchange rates
+
+**Hooks Layer (`src/hooks/`)**
+
+Custom React hooks encapsulate state management and side effects:
+- `useXsgdToVnd.ts` - Main hook for currency conversion logic, orchestrating multiple services and managing UI state
+
+**Views Layer (`src/app/`)**
+
+React components for the user interface, using [UI Kitten](https://akveo.github.io/react-native-ui-kitten/) for consistent design:
+- File-based routing powered by [Expo Router](https://docs.expo.dev/router/introduction/)
+- `index.tsx` - Main conversion screen
+
+**Navigation**
+
+This project uses **Expo Router** for file-based routing, where the file structure in the `src/app/` directory automatically defines the navigation structure.
+
+**Tech Stack**
+
+- Framework: [Expo](https://expo.dev) / React Native
+- UI Library: [UI Kitten](https://akveo.github.io/react-native-ui-kitten/)
+- Navigation: [Expo Router](https://docs.expo.dev/router/introduction/)
+- Language: TypeScript
+
+## Getting Started
+
+**Prerequisites**
+
+- Node.js (v18 or later recommended)
+- npm or yarn
+- iOS Simulator (macOS) or Android Emulator
+
+**Installation**
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/blockchain-remittance-rn.git
+cd blockchain-remittance-rn
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Set 1inch API key
+
+> This project gets XSGD -> USDT rate from 1inch. To make it work, you need to provide a 1inch authentication token in `.env`.
+
+```bash
+# Create a .env if needed, set your token in it as follows.
+
+ONE_INCH_AUTH_TOKEN=your_token_goes_here
+```
+
+**Running the Project**
+
+Start the development server:
+
+```bash
+npx expo start
+```
+
+You'll see options to run the app on:
+- Press `i` for iOS Simulator (macOS only)
+- Press `a` for Android Emulator
+- Scan QR code with Expo Go app on your physical device
 
 ## License
 
